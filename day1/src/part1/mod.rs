@@ -1,6 +1,6 @@
 use std::{fs::File, io::Read};
 
-pub fn day_1() {
+pub fn part1() {
     let mut contents = String::new();
     File::open("./src/input.txt")
         .unwrap()
