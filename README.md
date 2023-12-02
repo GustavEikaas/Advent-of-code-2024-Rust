@@ -3,7 +3,7 @@ Doing advent of code in Rust
 
 Day 1⭐⭐
      
-Day 2⭐
+Day 2⭐⭐
      
 Day 3
      
