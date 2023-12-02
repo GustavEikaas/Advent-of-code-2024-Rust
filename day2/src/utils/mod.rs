@@ -14,3 +14,9 @@ pub fn extract_number_from_draw(curr: &str) -> Result<i32, std::num::ParseIntErr
         .trim()
         .parse::<i32>();
 }
+
+pub struct GameLine {
+    pub red: i32,
+    pub green: i32,
+    pub blue: i32,
+}

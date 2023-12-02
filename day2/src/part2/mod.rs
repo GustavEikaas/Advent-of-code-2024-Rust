@@ -1,6 +1,6 @@
 use std::str::Split;
 
-use crate::utils::{extract_number_from_draw, find_color};
+use crate::utils::{extract_number_from_draw, find_color, GameLine};
 
 pub fn part2(contents: String) {
     let score = contents
@@ -9,13 +9,7 @@ pub fn part2(contents: String) {
         .map(|x| x.blue * x.red * x.green)
         .fold(0, |acc, curr| acc + curr);
 
-    println!("Part 1 answer:{}", score);
-}
-
-struct GameLine {
-    red: i32,
-    green: i32,
-    blue: i32,
+    println!("Part 2 answer:{}", score);
 }
 
 fn map_to_game_line(line: &str) -> GameLine {
@@ -55,6 +49,7 @@ fn calculate_draw<'a>(cubes: Split<&'a str>) -> GameLine {
         green: 0,
         red: 0,
     };
+
     let draw_score = cubes.fold(init, |mut acc, curr| {
         let count = extract_number_from_draw(curr).unwrap();
 

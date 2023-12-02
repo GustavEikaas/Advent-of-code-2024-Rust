@@ -1,4 +1,4 @@
-use crate::utils::{extract_number_from_draw, find_color};
+use crate::utils::{extract_number_from_draw, find_color, GameLine};
 
 pub fn part1(contents: String) {
     let score = contents
@@ -11,12 +11,6 @@ pub fn part1(contents: String) {
 
 fn filter_valid_game(game: &GameLine) -> bool {
     return !(game.red > 12 || game.green > 13 || game.blue > 14);
-}
-
-struct GameLine {
-    red: i32,
-    green: i32,
-    blue: i32,
 }
 
 fn map_to_game_line(line: &str) -> i32 {
