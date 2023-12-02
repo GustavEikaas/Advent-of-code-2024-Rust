@@ -13,7 +13,7 @@ pub fn part1() {
     println!("Part 1 answer:{}", lines.sum::<i32>());
 }
 
-fn get_numbers(line: &str) -> i32 {
+pub fn get_numbers(line: &str) -> i32 {
     return get_first_number_in_substring(line.to_owned().split("")) * 10
         + get_first_number_in_substring(line.to_owned().rsplit(""));
 }

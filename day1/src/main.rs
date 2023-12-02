@@ -6,6 +6,6 @@ use part2::part2;
 
 fn main() {
     println!("Day 1");
-    // part1();
+    part1();
     part2();
 }
