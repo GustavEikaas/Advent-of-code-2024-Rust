@@ -1,7 +1,7 @@
 # Advent-of-code-2024-Rust
 Doing advent of code in Rust
 
-Day 1
+Day 1⭐⭐
      
 Day 2
      
