@@ -1,12 +1,8 @@
-use std::{fs::File, io::Read};
+use std::str::Split;
 
-pub fn part2() {
-    let mut contents = String::new();
-    File::open("./src/input.txt")
-        .unwrap()
-        .read_to_string(&mut contents)
-        .unwrap();
+use crate::utils::{extract_number_from_draw, find_color};
 
+pub fn part2(contents: String) {
     let score = contents
         .split("\n")
         .map(map_to_game_line)
@@ -27,55 +23,24 @@ fn map_to_game_line(line: &str) -> GameLine {
 
     let cube_sets = line_array.nth(1).unwrap().split(";");
 
-    let cube_store = GameLine {
+    let cube_init = GameLine {
         blue: 0,
         green: 0,
         red: 0,
     };
 
-    let cube_max = cube_sets.fold(cube_store, |mut acc, curr| {
+    let cube_max = cube_sets.fold(cube_init, |mut acc, curr| {
         let cubes = curr.split(",");
-        let init = GameLine {
-            blue: 0,
-            green: 0,
-            red: 0,
-        };
+        let draw = calculate_draw(cubes);
 
-        let round_score = cubes.fold(init, |mut acc, curr| {
-            let count: i32 = curr
-                .replace("red", "")
-                .replace("green", "")
-                .replace("blue", "")
-                .trim()
-                .parse::<i32>()
-                .unwrap();
-
-            let cube_color = find_color(curr);
-
-            match cube_color.as_str() {
-                "red" => {
-                    acc.red += count;
-                }
-                "blue" => {
-                    acc.blue += count;
-                }
-                "green" => {
-                    acc.green += count;
-                }
-                &_ => {}
-            }
-
-            return acc;
-        });
-
-        if round_score.red > acc.red {
-            acc.red = round_score.red
+        if draw.red > acc.red {
+            acc.red = draw.red
         }
-        if round_score.blue > acc.blue {
-            acc.blue = round_score.blue
+        if draw.blue > acc.blue {
+            acc.blue = draw.blue
         }
-        if round_score.green > acc.green {
-            acc.green = round_score.green
+        if draw.green > acc.green {
+            acc.green = draw.green
         }
 
         return acc;
@@ -84,10 +49,31 @@ fn map_to_game_line(line: &str) -> GameLine {
     return cube_max;
 }
 
-fn find_color(line: &str) -> String {
-    return match () {
-        _ if line.contains("red") => "red".to_string(),
-        _ if line.contains("green") => "green".to_string(),
-        _ => "blue".to_string(),
+fn calculate_draw<'a>(cubes: Split<&'a str>) -> GameLine {
+    let init = GameLine {
+        blue: 0,
+        green: 0,
+        red: 0,
     };
+    let draw_score = cubes.fold(init, |mut acc, curr| {
+        let count = extract_number_from_draw(curr).unwrap();
+
+        let cube_color = find_color(curr);
+
+        match cube_color.as_str() {
+            "red" => {
+                acc.red += count;
+            }
+            "blue" => {
+                acc.blue += count;
+            }
+            "green" => {
+                acc.green += count;
+            }
+            &_ => {}
+        }
+
+        return acc;
+    });
+    return draw_score;
 }

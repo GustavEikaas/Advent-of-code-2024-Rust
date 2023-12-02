@@ -1,12 +1,6 @@
-use std::{fs::File, io::Read};
+use crate::utils::{extract_number_from_draw, find_color};
 
-pub fn part1() {
-    let mut contents = String::new();
-    File::open("./src/input.txt")
-        .unwrap()
-        .read_to_string(&mut contents)
-        .unwrap();
-
+pub fn part1(contents: String) {
     let score = contents
         .split("\n")
         .map(map_to_game_line)
@@ -43,15 +37,10 @@ fn map_to_game_line(line: &str) -> i32 {
         };
 
         let round_score = cubes.fold(init, |mut acc, curr| {
-            let count: i32 = curr
-                .replace("red", "")
-                .replace("green", "")
-                .replace("blue", "")
-                .trim()
-                .parse::<i32>()
-                .unwrap();
+            let count = extract_number_from_draw(curr).unwrap();
 
             let cube_color = find_color(curr);
+
             if cube_color == "red".to_string() {
                 acc.red += count;
             } else if cube_color == "green".to_string() {
@@ -74,14 +63,4 @@ fn map_to_game_line(line: &str) -> i32 {
     }
 
     return 0;
-}
-
-fn find_color(line: &str) -> String {
-    if line.contains("green") {
-        return "green".to_string();
-    } else if line.contains("red") {
-        return "red".to_string();
-    } else {
-        return "blue".to_string();
-    }
 }
